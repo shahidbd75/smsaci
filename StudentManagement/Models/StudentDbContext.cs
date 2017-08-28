@@ -11,7 +11,8 @@ namespace StudentManagement.Models
     {
         public StudentDbContext():base("name=StudentConStr")
         {
-
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
