@@ -1,0 +1,78 @@
+﻿@model StudentManagement.Models.Exam
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Exam Entry</h2>
+<hr />
+<div class="row">
+    <div class="col-md-7">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AttandDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="date" class="form-control" name="AttandDate" />
+                        @Html.ValidationMessageFor(model => model.AttandDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EnrollmentID, "EnrollmentID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("EnrollmentID", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EnrollmentID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Grade, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.Grade, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-5">
+        <table class="table table-condensed" >
+            <thead>
+                <tr>
+                    <th>Enrollment Id</th>
+                    <th>Course</th>
+                    <th>Student</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var enrol in ViewBag.EnrollmentList)
+            {
+                    <tr>
+                        <td>@enrol.EnrollmentID</td>
+                        <td>@enrol.Course.Name</td>
+                        <td>@enrol.Student.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -9,6 +9,7 @@ namespace StudentManagement.Models
         [Key]
         public int Id { get; set; }
         [StringLength(50)]
+        [Display(Name="Course Name")]
         public string Name { get; set; }
         public Double Duration { get; set; }
         public string Description { get; set; }

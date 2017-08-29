@@ -11,9 +11,12 @@ namespace StudentManagement.Models
     {
         [Key]
         public int TutorialId { get; set; }
+        [StringLength(100)]
+        [Display(Name ="Tutorial Name")]
         public string TutorialName { get; set; }
         [ForeignKey("Student")]
         public int StudentId { get; set; }
+        [Display(Name="File Name")]
         public string FileName { get; set; }
         public byte[] Content { get; set; }
 
