@@ -56,7 +56,7 @@ namespace StudentManagement.Controllers
                 URL = DocsPath + thisFileName;
 
                 Tutorial tutorial = new Tutorial() {
-                    FileLocation = filename,
+                    FileLocation = URL,
                     StudentId = Convert.ToInt32(formData["StudentId"]),
                     TutorialName = formData["TutorialName"],
                     FileName = thisFileName
