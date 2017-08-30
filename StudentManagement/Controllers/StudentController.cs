@@ -100,8 +100,10 @@ namespace StudentManagement.Controllers
 
         [HttpPost]
         [Route("login")]
+        [AllowAnonymous]
         public HttpResponseMessage Login(LoginVM login)
         {
+            
             int isAuthenticate = repo.Login(login.username, login.password);
             if (isAuthenticate > 0)
             {
@@ -114,29 +116,34 @@ namespace StudentManagement.Controllers
 
                 ClaimsIdentity identities = new ClaimsIdentity(claims, "ApplicationCookie");
                 manager.SignIn(identities: identities);
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }else
+                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+                response.Content =new StringContent("Login Successfully");
+                return response;
+            }
+            else
             {
-                HttpResponseMessage response = new HttpResponseMessage();
-                response.RequestMessage.CreateResponse(HttpStatusCode.NotFound,"invalid username or password");
+                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.NotFound);
+                response.Content = new StringContent("Invalid username or password");
                 return response;
             } 
         }
 
-        [HttpPost]
-        [AllowAnonymous]
+        [HttpPost]        
         [Route("signup")]
+        [AllowAnonymous]
         public HttpResponseMessage Register(Student student)
-        {
+        {           
             int isAuthenticate = repo.Registration(student);
             if (isAuthenticate > 0)
             {
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+                response.Content =new StringContent("Register Successfully");
+                return response;
             }
             else
             {
-                HttpResponseMessage response = new HttpResponseMessage();
-                response.RequestMessage.CreateResponse(HttpStatusCode.Unauthorized, "invalid username or password");
+                HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                response.Content = new StringContent( "Please post valid data");
                 return response;
             }
         }

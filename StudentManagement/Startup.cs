@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 using Microsoft.Owin.Security.Cookies;
+using System.Web.Mvc;
 
 [assembly: OwinStartup(typeof(StudentManagement.Startup))]
 
@@ -12,7 +13,7 @@ namespace StudentManagement
     {
         public void Configuration(IAppBuilder app)
         {
-
+            GlobalFilters.Filters.Add(new AuthorizeAttribute());
             CookieAuthenticationOptions options = new CookieAuthenticationOptions()
             {
                 AuthenticationType = "ApplicationCookie",

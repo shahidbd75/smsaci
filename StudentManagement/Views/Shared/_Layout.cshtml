@@ -27,6 +27,12 @@
                     <li>@Html.ActionLink("Exams", "Index", "Exams", new { area = "" }, null)</li>
                     <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
                 </ul>
+                @if(User.Identity.IsAuthenticated) {
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/Authentication/Logout">Sign Out</a></li>
+                </ul>
+                }
             </div>
         </div>
     </div>
