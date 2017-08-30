@@ -18,7 +18,7 @@ namespace StudentManagement.Models
         public int StudentId { get; set; }
         [Display(Name="File Name")]
         public string FileName { get; set; }
-        public byte[] Content { get; set; }
+        public string FileLocation { get; set; }
 
         public Student Student { get; set; }
     }

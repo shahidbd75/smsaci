@@ -3,7 +3,7 @@ namespace StudentManagement.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigration : DbMigration
+    public partial class initialMigration : DbMigration
     {
         public override void Up()
         {
@@ -70,7 +70,7 @@ namespace StudentManagement.Migrations
                         TutorialName = c.String(maxLength: 100),
                         StudentId = c.Int(nullable: false),
                         FileName = c.String(),
-                        Content = c.Binary(),
+                        FileLocation = c.String(),
                     })
                 .PrimaryKey(t => t.TutorialId)
                 .ForeignKey("dbo.Student", t => t.StudentId, cascadeDelete: true)

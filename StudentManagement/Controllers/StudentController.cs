@@ -1,11 +1,16 @@
-﻿using StudentManagement.Models;
+﻿using Microsoft.Owin;
+using Microsoft.Owin.Security;
+using StudentManagement.Models;
 using StudentManagement.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
+using System.Web;
+using StudentManagement.ViewModel;
 
 namespace StudentManagement.Controllers
 {
@@ -95,21 +100,31 @@ namespace StudentManagement.Controllers
 
         [HttpPost]
         [Route("login")]
-        public HttpResponseMessage Login(string username,string password)
+        public HttpResponseMessage Login(LoginVM login)
         {
-            int isAuthenticate = repo.Login(username, password);
+            int isAuthenticate = repo.Login(login.username, login.password);
             if (isAuthenticate > 0)
             {
+                IOwinContext context = HttpContext.Current.GetOwinContext(); 
+                IAuthenticationManager manager = context.Authentication;
+                List<Claim> claims = new List<Claim>();
+
+                claims.Add(new Claim(ClaimTypes.Name, login.username));
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+
+                ClaimsIdentity identities = new ClaimsIdentity(claims, "ApplicationCookie");
+                manager.SignIn(identities: identities);
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }else
             {
                 HttpResponseMessage response = new HttpResponseMessage();
-                response.RequestMessage.CreateResponse(HttpStatusCode.Unauthorized,"invalid username or password");
+                response.RequestMessage.CreateResponse(HttpStatusCode.NotFound,"invalid username or password");
                 return response;
             } 
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("signup")]
         public HttpResponseMessage Register(Student student)
         {
